@@ -1,0 +1,43 @@
+#shine-macro {
+    position: relative;
+}
+
+#shine-macro_btn {
+    cursor: pointer;
+}
+
+#shine-macro_panel {
+    display: none;
+    position: absolute;
+    bottom: 24px;
+    left: -12px;
+    padding: 12px 8px;
+    background: white;
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 8%);
+    border-radius: 8px;
+    border: 1px solid #eee;
+    z-index: 1000;
+}
+
+#shine-macro_panel.open {
+    display: block;
+}
+
+#shine-macro_panel ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    /*min-width: 340px;*/
+    min-width: 400px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#shine-macro_panel ul li {
+    padding: 10px 12px;
+    border-radius: 4px;
+}
+
+#shine-macro_panel ul li:hover {
+    background: #f1f1f1;
+}
