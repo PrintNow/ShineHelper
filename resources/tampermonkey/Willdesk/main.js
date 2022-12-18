@@ -1,5 +1,21 @@
 'use strict';
 
+window.ShineToast = (text, options = {}) => {
+    Toastify({
+        text,
+        duration: 2000,
+        newWindow: true,
+        close: false,
+        gravity: "top",
+        position: "center",
+        stopOnFocus: true,
+        style: {
+            background: `linear-gradient(to right, #00b09b, #96c93d)`,
+        },
+        ...options
+    }).showToast();
+}
+
 class UserInfo {
     get name() {
         return document.querySelector(".customer_head .name").innerText
@@ -44,6 +60,7 @@ function renderMacroList($macroPanel, macros = []) {
         let $li = document.createElement("li");
         $li.onclick = () => {
             writeMacroToClip(text).then(() => {
+                window.ShineToast("Macro 复制成功")
                 let inputTextArea = document.querySelector(".inputTextArea");
                 inputTextArea.focus()
                 closeMacrosPanel($macroPanel)
