@@ -74,6 +74,11 @@ function renderMacroList($macroPanel, macros = []) {
 
 const macros = [
     'Hi {{name}}, Ashley here🙋‍♀️🙋‍♀️ How are you doing? 😊',
+    'Hi there, Ashley here🙋‍♀️🙋‍♀️ How are you doing? 😊',
+    "If it's convenient, could you take a minute to leave Ashley a review for the support and service? thank you a lot! 💖💖",
+    "May I know have you been redirected to the Shopify store? could you also leave Ashley a review there? thank you! 💞💞",
+    "Since you have no response for a long time, this conversation will be closed for now!\nIf you have any other concerns, please feel free to contact us anytime, thank you!",
+    "Regarding your concerns, currently our development team is working on this feature, estimated that would be released at the end of this month or the beginning of next month, please kindly rest assured, once we have released the feature, molly will update you the first time!"
 ]
 
 const macro_id = `shine-macro`
