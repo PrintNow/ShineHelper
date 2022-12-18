@@ -22,8 +22,11 @@ function insertStyle(url = "http://127.0.0.1:9977/style.css", version = null) {
     document.body.appendChild(remoteStyle);
 }
 
-insertStyle('https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css', '1.0');
-insertScript('https://cdn.jsdelivr.net/npm/toastify-js', '1.0');
+// insertStyle('https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css', '1.0');
+// insertScript('https://cdn.jsdelivr.net/npm/toastify-js', '1.0');
+
+insertStyle('https://cdn.nowtime.cc/static/plugins/toastify-js/toastify.css', '1.0');
+insertScript('https://cdn.nowtime.cc/static/plugins/toastify-js/toastify.js', '1.0');
 
 (function () {
     'use strict';
