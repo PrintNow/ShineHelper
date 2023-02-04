@@ -40,8 +40,16 @@
 #shine-macro_panel ul li {
     padding: 12px;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 #shine-macro_panel ul li:hover {
     background: #f1f1f1;
+}
+
+code.shine-variable{
+    padding: 2px 4px;
+    color: #c7254e;
+    background-color: #f7f7f9;
+    border-radius: 6px;
 }

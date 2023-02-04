@@ -90,7 +90,7 @@ function renderMacroList($macroPanel, macros = []) {
             closeMacrosPanel($macroPanel)
         }
 
-        $li.innerText = text
+        $li.innerHTML = renderVar(text)
         $macroPanelUL.appendChild($li)
     })
 }
@@ -114,6 +114,14 @@ function keepLastIndex(ele) {
     let range = window.getSelection(); //创建range
     range.selectAllChildren(ele); //range 选择obj下所有子内容
     range.collapseToEnd(); //光标移至最后
+}
+
+function renderVar(text) {
+    text.match(/\{\{(.+?)\}\}/g)?.forEach(variable => {
+        text = text.replaceAll(variable, `<code title="variable" class="shine-variable">${variable}</code>`)
+    })
+
+    return text
 }
 
 // 面板
