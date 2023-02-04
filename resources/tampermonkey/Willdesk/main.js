@@ -1,5 +1,32 @@
 'use strict';
 
+const macros = [
+    'Hi {{name}}, Ashley here🙋‍♀️🙋‍♀️ How are you doing? 😊',
+    'Hi there, Ashley here🙋‍♀️🙋‍♀️ How are you doing? 😊',
+    "If it's convenient, could you take a minute to leave Ashley a review for the support and service? thank you a lot! 💖💖",
+    "May I know have you been redirected to the Shopify store? could you also leave Ashley a review there? thank you! 💞💞",
+    "Since you have no response for a long time, this conversation will be closed for now!\nIf you have any other concerns, please feel free to contact us anytime, thank you!",
+    "Regarding your concerns, currently our development team is working on this feature, estimated that would be released at the end of this month or the beginning of next month, please kindly rest assured, once we have released the feature, molly will update you the first time!",
+    // {
+    //     name: "rabbit",
+    //     url: ""
+    // },
+]
+
+const macro_id = `shine-macro`
+
+const $macro = document.createElement("div")
+$macro.id = macro_id
+$macro.innerHTML = `
+<div id="${macro_id}_btn">Macros</div>
+<div id="${macro_id}_panel"><ul></ul></div>
+`
+
+/*****************************************************************/
+/*****************************************************************/
+/*****************************************************************/
+/*****************************************************************/
+
 window.ShineToast = (text, options = {}) => {
     Toastify({
         text,
@@ -20,18 +47,6 @@ class UserInfo {
     get name() {
         return document.querySelector(".customer_head .name").innerText
     }
-}
-
-/**
- * 写入 macro 到剪贴板
- * @param {string} text
- * @returns {Promise<void>}
- */
-async function writeMacroToClip(text) {
-    let userInfo = new UserInfo();
-    text = text.replace(`{{name}}`, userInfo.name)
-
-    await navigator.clipboard.writeText(text)
 }
 
 /**
@@ -59,12 +74,15 @@ function renderMacroList($macroPanel, macros = []) {
     macros.forEach(text => {
         let $li = document.createElement("li");
         $li.onclick = () => {
-            writeMacroToClip(text).then(() => {
-                window.ShineToast("Macro 复制成功")
-                let inputTextArea = document.querySelector(".inputTextArea");
-                inputTextArea.focus()
-                closeMacrosPanel($macroPanel)
-            })
+            let $inputTextArea = document.querySelector("div.inputTextArea");
+
+            let userInfo = new UserInfo();
+            text = text.replace(`{{name}}`, userInfo.name)
+
+            $inputTextArea.innerHTML += text
+
+            dispatchInputEvent($inputTextArea)
+            closeMacrosPanel($macroPanel)
         }
 
         $li.innerText = text
@@ -72,23 +90,27 @@ function renderMacroList($macroPanel, macros = []) {
     })
 }
 
-const macros = [
-    'Hi {{name}}, Ashley here🙋‍♀️🙋‍♀️ How are you doing? 😊',
-    'Hi there, Ashley here🙋‍♀️🙋‍♀️ How are you doing? 😊',
-    "If it's convenient, could you take a minute to leave Ashley a review for the support and service? thank you a lot! 💖💖",
-    "May I know have you been redirected to the Shopify store? could you also leave Ashley a review there? thank you! 💞💞",
-    "Since you have no response for a long time, this conversation will be closed for now!\nIf you have any other concerns, please feel free to contact us anytime, thank you!",
-    "Regarding your concerns, currently our development team is working on this feature, estimated that would be released at the end of this month or the beginning of next month, please kindly rest assured, once we have released the feature, molly will update you the first time!"
-]
+/**
+ *
+ * @param {HTMLDivElement} $inputTextArea
+ * @param {string} html
+ */
+function dispatchInputEvent($inputTextArea){
+    $inputTextArea.dispatchEvent(new Event("input"))
+    keepLastIndex($inputTextArea)
+}
 
-const macro_id = `shine-macro`
+/**
+ *
+ * @param {HTMLDivElement} ele
+ */
+function keepLastIndex(ele) {
+    ele.focus(); //解决ff不获取焦点无法定位问题
 
-const $macro = document.createElement("div")
-$macro.id = macro_id
-$macro.innerHTML = `
-<div id="${macro_id}_btn">Macros</div>
-<div id="${macro_id}_panel"><ul></ul></div>
-`
+    let range = window.getSelection(); //创建range
+    range.selectAllChildren(ele); //range 选择obj下所有子内容
+    range.collapseToEnd(); //光标移至最后
+}
 
 // 面板
 let $macroPanel = $macro.querySelector(`#${macro_id}_panel`);
