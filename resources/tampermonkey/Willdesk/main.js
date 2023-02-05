@@ -1,10 +1,10 @@
 'use strict';
 
 const macros = [
-    'Hi {{name}}, {{accountName}} here🙋‍♀️🙋‍♀️ How are you doing? 😊',
-    'Hi there, {{accountName}} here🙋‍♀️🙋‍♀️ How are you doing? 😊',
-    "If it's convenient, could you take a minute to leave {{accountName}} a review for the support and service? thank you a lot! 💖💖",
-    "May I know have you been redirected to the Shopify store? could you also leave {{accountName}} a review there? thank you! 💞💞",
+    'Hi {{name}}, {{CSName}} here🙋‍♀️🙋‍♀️ How are you doing? 😊',
+    'Hi there, {{CSName}} here🙋‍♀️🙋‍♀️ How are you doing? 😊',
+    "If it's convenient, could you take a minute to leave {{CSName}} a review for the support and service? thank you a lot! 💖💖",
+    "May I know have you been redirected to the Shopify store? could you also leave {{CSName}} a review there? thank you! 💞💞",
     "Since you have no response for a long time, this conversation will be closed for now!\nIf you have any other concerns, please feel free to contact us anytime, thank you!",
     "Regarding your concerns, currently our development team is working on this feature, estimated that would be released at the end of this month or the beginning of next month, please kindly rest assured, once we have released the feature, molly will update you the first time!",
     // {
@@ -48,8 +48,8 @@ class UserInfo {
         return document.querySelector(".customer_head .name").innerText
     }
 
-    get accountName(){
-        return document.querySelector("span.accountName").innerText
+    get CSName(){
+        return document.querySelector(".infoToast-info span.accountName").innerText
     }
 }
 
@@ -82,7 +82,7 @@ function renderMacroList($macroPanel, macros = []) {
 
             let userInfo = new UserInfo();
             text = text.replaceAll(`{{name}}`, userInfo.customerName)
-                .replaceAll(`{{accountName}}`, userInfo.accountName)
+                .replaceAll(`{{CSName}}`, userInfo.CSName)
 
             $inputTextArea.innerHTML += text
 
@@ -93,6 +93,34 @@ function renderMacroList($macroPanel, macros = []) {
         $li.innerHTML = renderVar(text)
         $macroPanelUL.appendChild($li)
     })
+}
+
+/**
+ * 写入 macro 到剪贴板
+ * @param {string} text
+ * @returns {Promise<void>}
+ */
+async function writeMacroToClip(text) {
+    let userInfo = new UserInfo();
+    text = text.replace(`{{name}}`, userInfo.name)
+
+    return await navigator.clipboard.writeText(text)
+}
+
+/**
+ * 写入图片到剪贴板
+ * @param url
+ * @returns {Promise<void>}
+ */
+async function writeEmojiToClip(url) {
+    const fetchedImageData = await fetch(url)
+    const blob = await fetchedImageData.blob()
+
+    const clipboardItem = new ClipboardItem({
+        [blob.type]: blob,
+    });
+
+    return await navigator.clipboard.write([clipboardItem]);
 }
 
 /**
